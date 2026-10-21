@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "edital-mcp"
+version = "0.1.0"
+description = "Collect user-edited text in a new terminal window through MCP."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["edital>=0.3.0,<0.4", "mcp>=1.20,<2", "platformdirs>=4,<5"]
+
+[project.urls]
+Repository = "https://github.com/octanima-labs/edital-mcp"
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio", "ruff", "mypy", "build"]
+
+[project.scripts]
+edital-mcp = "edital_mcp.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/edital_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
