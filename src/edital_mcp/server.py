@@ -7,6 +7,7 @@ from .session import edit
 
 
 def create_server(config_path: str | None = None) -> FastMCP:
+    load(config_path)
     server = FastMCP("edital")
 
     @server.tool()
