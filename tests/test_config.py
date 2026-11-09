@@ -52,7 +52,7 @@ def test_configuration_precedence(tmp_path: Path, monkeypatch: pytest.MonkeyPatc
     monkeypatch.setenv("EDITAL_MCP_CONFIG", str(explicit))
     assert load().startup_timeout == 30
     assert load(str(default)).startup_timeout == 15
-    with pytest.raises(ValueError, match="Cannot use"):
+    with pytest.raises(ValueError, match="Configuration file missing"):
         load(str(tmp_path / "missing"))
     explicit.write_text("not TOML or draft text")
     with pytest.raises(ValueError, match="Cannot use") as failure:

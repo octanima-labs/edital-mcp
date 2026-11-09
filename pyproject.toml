@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "edital-mcp"
-version = "0.1.0"
+version = "0.2.0"
 description = "Collect user-edited text in a new terminal window through MCP."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["edital>=0.3.0,<0.4", "mcp>=1.20,<2", "platformdirs>=4,<5"]
+dependencies = ["confease>=6.0.1,<7", "edital>=0.3.0,<0.4", "mcp>=1.20,<2", "platformdirs>=4,<5"]
 
 [project.urls]
 Repository = "https://github.com/octanima-labs/edital-mcp"

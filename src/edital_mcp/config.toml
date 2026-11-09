@@ -1,0 +1,9 @@
+[terminal]
+# Uncomment exactly one new-window launcher, or configure your own.
+# command = ["alacritty", "--working-directory", "{cwd}", "-e", "{argv}"]
+# command = ["kitty", "--directory", "{cwd}", "{argv}"]
+# command = ["gnome-terminal", "--working-directory", "{cwd}", "--", "{argv}"]
+# command = ["konsole", "--separate", "--workdir", "{cwd}", "-e", "{argv}"]
+
+[session]
+startup_timeout = 15.0

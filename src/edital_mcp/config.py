@@ -3,8 +3,10 @@
 import math
 import os
 import shutil
+import tempfile
 import tomllib
 from dataclasses import dataclass
+from importlib.resources import files
 from pathlib import Path
 
 from platformdirs import user_config_path
@@ -43,9 +45,46 @@ class Config:
         return argv
 
 
-def load(path: str | None = None) -> Config:
+def config_path(path: str | None = None) -> Path:
+    """Resolve the shared serving and configuration-editing destination."""
     selected = path if path is not None else os.environ.get("EDITAL_MCP_CONFIG")
-    source = Path(selected).expanduser() if selected else user_config_path("edital-mcp") / "config.toml"
+    return Path(selected).expanduser() if selected else user_config_path("edital-mcp") / "config.toml"
+
+
+def configure(*, reset: bool = False, term: str | None = None) -> None:
+    """Edit configuration, or restore a terminal-selected template with a backup."""
+    from confease import Confease, Toml  # type: ignore[import-untyped]
+
+    destination = config_path()
+    if destination.exists() and not reset:
+        Confease(destination, parser=Toml, autoload=False).edit_file()
+        return
+
+    terminal = term if term is not None else os.environ.get("TERM", "")
+    template = files("edital_mcp").joinpath("config.toml").read_text(encoding="utf-8")
+    lines = template.splitlines(keepends=True)
+    matched = False
+    for index, line in enumerate(lines):
+        if line.startswith("# command = "):
+            command = tomllib.loads(line[2:])["command"]
+            if command[0] == terminal:
+                lines[index] = line[2:]
+                matched = True
+                break
+    if not matched:
+        print("No matching terminal example; uncomment one terminal.command before serving.")
+    with tempfile.TemporaryDirectory(prefix="edital-mcp-conf-") as directory:
+        source = Path(directory) / "config.toml"
+        source.write_text("".join(lines), encoding="utf-8")
+        conf = Confease(destination, parser=Toml, template=source, autoload=False)
+        if reset:
+            conf.reset(backup=True)
+        else:
+            conf.edit_file(template=source)
+
+
+def load(path: str | None = None) -> Config:
+    source = config_path(path)
     try:
         with source.open("rb") as stream:
             data = tomllib.load(stream)
@@ -57,6 +96,11 @@ def load(path: str | None = None) -> Config:
         if not isinstance(command, list):
             raise ValueError("terminal.command must be an array; configure a new-window launcher")  # noqa: TRY004
         return Config(tuple(command), session.get("startup_timeout", 15.0))
+    except FileNotFoundError as exc:
+        raise ValueError(
+            f"Configuration file missing: {source}. Run 'edital-mcp conf'"
+            " (set EDITAL_MCP_CONFIG to this path when using serve --config)."
+        ) from exc
     except (OSError, ValueError) as exc:
         # Do not echo arbitrary file contents from TOML parsing errors.
         raise ValueError(f"Cannot use {source}: configure a valid terminal.command and session.startup_timeout") from exc

@@ -23,7 +23,32 @@ No PyPI distribution is currently published; use the Git source or a local check
 
 ## Terminal configuration
 
-Create `~/.config/edital-mcp/config.toml` (respecting `XDG_CONFIG_HOME`):
+Run setup in an interactive terminal before connecting your MCP client:
+
+```sh
+edital-mcp conf --term alacritty
+```
+
+This opens `~/.config/edital-mcp/config.toml` (respecting `XDG_CONFIG_HOME`) in
+Confease's embedded editor. F2/F3 accepts and creates the file; Ctrl+Q cancels,
+leaving a missing file absent. Existing files open unchanged for editing or repair.
+Set `EDITAL_MCP_CONFIG` to manage an alternate TOML file.
+
+On creation or reset, `-t/--term` takes precedence over `$TERM`. An exact match
+activates one bundled example: `alacritty`, `kitty`, `gnome-terminal`, or `konsole`.
+Unknown values leave all examples commented and print guidance. `$TERM` commonly
+contains a capability name such as `xterm-256color`, so explicit `--term` is useful.
+Shells such as Bash and Zsh are not new-window terminal launchers.
+
+To replace settings with the template without opening the editor:
+
+```sh
+edital-mcp conf --reset --term kitty  # also: conf -r -t kitty
+```
+
+Reset backs up an existing file beside the original as a timestamped `.toml.bkp`
+file. Terminal selection only applies on creation/reset, not ordinary editing.
+For example, the active Alacritty configuration is:
 
 ```toml
 [terminal]
@@ -38,7 +63,9 @@ without shell expansion. The working directory is inherited from the MCP server.
 Only initial helper startup has a deadline; established editing has no bridge deadline.
 
 Configuration selection is `serve --config PATH`, then `EDITAL_MCP_CONFIG`, then
-the default configuration above. An explicit missing or invalid file is an error.
+the default configuration above. Missing or invalid configuration fails at server
+startup with an error on stderr; missing-file errors point to `edital-mcp conf`.
+Terminal executable and desktop availability are checked when a tool is called.
 To reuse Skillsmith settings without installing Skillsmith into this environment:
 
 ```sh

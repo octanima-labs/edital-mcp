@@ -3,11 +3,25 @@ revision = 5
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.15' and sys_platform == 'win32'",
-    "python_full_version == '3.14.*' and sys_platform == 'win32'",
     "python_full_version >= '3.15' and sys_platform != 'win32'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32'",
     "python_full_version == '3.14.*' and sys_platform != 'win32'",
     "python_full_version < '3.14' and sys_platform == 'win32'",
     "python_full_version < '3.14' and sys_platform != 'win32'",
+]
+
+[[package]]
+name = "2ning"
+version = "1.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "bitmath" },
+    { name = "pyyaml" },
+    { name = "rich" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e9/1f/d4dc43b7b2474b7a4c26769f393e10540ddaaeb875cec10b68c8500c4644/2ning-1.0.0.tar.gz", hash = "sha256:b1c3db169202a79a9e6f0c5264a22c01b29068d4894c5b8ef4da1e1cc88cd920", size = 29854, upload-time = "2026-05-07T01:09:36.055Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fa/73/d855ef60014187a4cafac6272452c1e7e1575a124887ef21f7eaf8e886f3/2ning-1.0.0-py3-none-any.whl", hash = "sha256:26c4655f0923890c3580c8c20e12cd7f0fddfa15cb55c750f48bf83bd8354311", size = 22180, upload-time = "2026-05-07T01:09:34.73Z" },
 ]
 
 [[package]]
@@ -103,6 +117,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/9a/8e/82a0fe20a541c03148528be8cac2408564a6c9a0cc7e9171802bc1d26985/attrs-26.1.0.tar.gz", hash = "sha256:d03ceb89cb322a8fd706d4fb91940737b6642aa36998fe130a9bc96c985eff32", size = 952055, upload-time = "2026-03-19T14:22:25.026Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/64/b4/17d4b0b2a2dc85a6df63d1157e028ed19f90d4cd97c36717afef2bc2f395/attrs-26.1.0-py3-none-any.whl", hash = "sha256:c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309", size = 67548, upload-time = "2026-03-19T14:22:23.645Z" },
+]
+
+[[package]]
+name = "bitmath"
+version = "2.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b3/c0/9e4ffd1ccfc71eb8600a7e725857601d10ca7941ace678f20cb7a211c225/bitmath-2.1.1.tar.gz", hash = "sha256:56f2cda86b1f0aa6470f4aaa90f82ef029f0e16c31b66f0fdd9d67613bc5e9f0", size = 112001, upload-time = "2026-05-25T13:24:39.279Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0f/19/866aa16681edaa4b391c4bcca03defe4b93f9d3bc1d25f37d431428f1cfd/bitmath-2.1.1-py3-none-any.whl", hash = "sha256:d2c16820d167bd77285591a0ef0112f6c5feedf111055db3b8870448d17bbdfa", size = 25028, upload-time = "2026-05-25T13:24:37.502Z" },
 ]
 
 [[package]]
@@ -245,6 +268,23 @@ wheels = [
 ]
 
 [[package]]
+name = "confease"
+version = "6.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "2ning" },
+    { name = "edital" },
+    { name = "iniparse" },
+    { name = "pyyaml" },
+    { name = "ruamel-yaml" },
+    { name = "tomlkit" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/91/45/616ab68430ecfba10532037a496460f89f83e5d6f8d73ce61aa2fadec082/confease-6.0.1.tar.gz", hash = "sha256:2270d54d6bf6df51345b3659599acdf2d338dc51db853daecf4910ee197df62f", size = 86393, upload-time = "2026-11-09T00:28:29.832Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c2/f9/20a9c27fc3aba364bb48df0035dbb19d69350ff0c359d94e4450c019844e/confease-6.0.1-py3-none-any.whl", hash = "sha256:28584fadffc4dbc257a9601fd316662706992078c0f86064000a3864b7830675", size = 44038, upload-time = "2026-11-09T00:28:28.297Z" },
+]
+
+[[package]]
 name = "cryptography"
 version = "50.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -329,9 +369,10 @@ wheels = [
 
 [[package]]
 name = "edital-mcp"
-version = "0.1.0"
+version = "0.2.0"
 source = { editable = "." }
 dependencies = [
+    { name = "confease" },
     { name = "edital" },
     { name = "mcp" },
     { name = "platformdirs" },
@@ -349,6 +390,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "build", marker = "extra == 'dev'" },
+    { name = "confease", specifier = ">=6.0.1,<7" },
     { name = "edital", specifier = ">=0.3.0,<0.4" },
     { name = "mcp", specifier = ">=1.20,<2" },
     { name = "mypy", marker = "extra == 'dev'" },
@@ -421,6 +463,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/01/e1/2069291243c926a2ff1cd706c7f3eeb9b62144bf60f77c9fb9ff2fb26bd3/iniconfig-2.3.1.tar.gz", hash = "sha256:67f4b9c50da0dedf52af349e7749a80a9057a5031199791b906c3bb3ae878960", size = 21209, upload-time = "2026-10-06T22:48:38.076Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/56/43/4ca9e49d27a1fcf6bece6f6aec0ea46bb9112489b93d4b688fb415457bdb/iniconfig-2.3.1-py3-none-any.whl", hash = "sha256:9121e2c1fdb355232495be3194c8dfe87ccc2d5dee45947b78e68f499790d7a7", size = 7552, upload-time = "2026-10-06T22:48:36.959Z" },
+]
+
+[[package]]
+name = "iniparse"
+version = "0.5.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/95/2f/d7637e3cbbeb7ca2fddaf0c5986284d5a086c437139523f4bcea95a9f1d0/iniparse-0.5.3.tar.gz", hash = "sha256:9cadfd7dfa551aed58f91f333321753a4d7df6ff765651fda5affefface33fe8", size = 51624, upload-time = "2026-11-03T15:22:13.197Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9c/ce/22672b924b58cb44945f92199c90a6b92d46ee8fe899adbebf5b4c72d2f7/iniparse-0.5.3-py3-none-any.whl", hash = "sha256:7a4731b9d1020dd601340bb9c54bd996d5dbbdb29f30cd967f75051fdb52a7dc", size = 31116, upload-time = "2026-11-03T15:22:11.695Z" },
 ]
 
 [[package]]
@@ -1234,6 +1285,15 @@ wheels = [
 ]
 
 [[package]]
+name = "ruamel-yaml"
+version = "0.19.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/c7/3b/ebda527b56beb90cb7652cb1c7e4f91f48649fbcd8d2eb2fb6e77cd3329b/ruamel_yaml-0.19.1.tar.gz", hash = "sha256:53eb66cd27849eff968ebf8f0bf61f46cdac2da1d1f3576dd4ccee9b25c31993", size = 142709, upload-time = "2026-01-02T16:50:31.84Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b8/0c/51f6841f1d84f404f92463fc2b1ba0da357ca1e3db6b7fbda26956c3b82a/ruamel_yaml-0.19.1-py3-none-any.whl", hash = "sha256:27592957fedf6e0b62f281e96effd28043345e0e66001f97683aa9a40c667c93", size = 118102, upload-time = "2026-01-02T16:50:29.201Z" },
+]
+
+[[package]]
 name = "ruff"
 version = "0.17.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1299,6 +1359,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/00/21/39a76b01bd5eea82a04baaca7580e105d8c59450df03998345bb2cfb307b/textual-8.2.8.tar.gz", hash = "sha256:3f106a9fbc73e39dd266c9712432087de78a6d644084c7c241d6a25c3169115b", size = 1860502, upload-time = "2026-06-30T06:51:24.495Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/fb/be/35261223d9416a0751cdff1c7b4a6f881387218a12d439fe22fefebc8c04/textual-8.2.8-py3-none-any.whl", hash = "sha256:267375fd402dc8d981457212efa71f0e3365fd17bba144ba9bb3ed7563cb374a", size = 731418, upload-time = "2026-06-30T06:51:26.364Z" },
+]
+
+[[package]]
+name = "tomlkit"
+version = "0.15.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/72/fc01563df95c189a9f65850096bdc205bc2fe37da6c740cd64afaf18d07e/tomlkit-0.15.2.tar.gz", hash = "sha256:83e32755ba1d20d9340bd069ee97e9f6232ba2346b63ffcba425de01f7e327a6", size = 190522, upload-time = "2026-10-16T04:07:08.166Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/da/46/7d84138a60a8bd796825b2d38ebe92d0d16501ca57d501b7c5d677401bbc/tomlkit-0.15.2-py3-none-any.whl", hash = "sha256:05562412163a3037b94497385fb7f9204c637bc605af7a48199e41cf2272f437", size = 52225, upload-time = "2026-10-16T04:07:09.216Z" },
 ]
 
 [[package]]
